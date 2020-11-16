@@ -14,6 +14,7 @@ public class LoginController {
 	@RequestMapping("/name")
 	public Map name(){
 		String name = SecurityContextHolder.getContext().getAuthentication().getName();
+		System.out.println(name);
 		Map map=new HashMap<>();
 		map.put("loginName", name);
 		return map;		
