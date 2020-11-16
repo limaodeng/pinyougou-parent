@@ -1,4 +1,5 @@
 package com.pinyougou.sellergoods.service.impl;
+import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.alibaba.dubbo.config.annotation.Service;
@@ -46,7 +47,7 @@ public class GoodsServiceImpl implements GoodsService {
 	 */
 	@Override
 	public void add(TbGoods goods) {
-		goodsMapper.insert(goods);		
+		goodsMapper.insert(goods);
 	}
 
 	
