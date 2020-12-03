@@ -1,5 +1,5 @@
  //控制层 
-app.controller('goodsController' ,function($scope,$controller,goodsService,uploadService){
+app.controller('goodsController' ,function($scope,$controller,goodsService,uploadService,itemCatService){
 	
 	$controller('baseController',{$scope:$scope});//继承
 	
@@ -76,12 +76,10 @@ app.controller('goodsController' ,function($scope,$controller,goodsService,uploa
 			}			
 		);
 	}
-
     /**
      * 上传图片
      */
     $scope.uploadFile=function(){
-    	debugger;
         uploadService.uploadFile().success(function(response) {
             if(response.success){//如果上传成功，取出url
                 $scope.image_entity.url=response.message;//设置文件地址
@@ -93,7 +91,7 @@ app.controller('goodsController' ,function($scope,$controller,goodsService,uploa
         });
     };
 
-    $scope.entity={goods:{},goodsDesc:{itemImages:[]}};//定义页面实体结构
+    $scope.entity={goods:{},goodsDesc:{itemImages:[$scope.image_entity]}};//定义页面实体结构
     //添加图片列表
     $scope.add_image_entity=function(){
         $scope.entity.goodsDesc.itemImages.push($scope.image_entity);
@@ -104,4 +102,40 @@ app.controller('goodsController' ,function($scope,$controller,goodsService,uploa
         $scope.entity.goodsDesc.itemImages.splice(index,1);
     }
 
-});	
+
+    //读取一级分类
+    $scope.selectItemCat1List=function(){
+        itemCatService.findByParentId(0).success(
+            function(response){
+                $scope.itemCat1List=response;
+            }
+        );
+    }
+
+    //读取二级分类
+    $scope.$watch('entity.goods.category1Id', function(newValue, oldValue) {
+        //根据选择的值，查询二级分类
+        itemCatService.findByParentId(newValue).success(
+            function(response){
+                $scope.itemCat2List=response;
+            }
+        );
+    });
+
+
+    //读取三级分类
+    $scope.$watch('entity.goods.category2Id', function(newValue, oldValue) {
+        //根据选择的值，查询二级分类
+        itemCatService.findByParentId(newValue).success(
+            function(response){
+                $scope.itemCat3List=response;
+            }
+        );
+    });
+
+
+
+
+});
+
+
