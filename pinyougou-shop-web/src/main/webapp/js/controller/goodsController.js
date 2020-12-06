@@ -23,7 +23,7 @@ app.controller('goodsController' ,function($scope,$controller,goodsService,uploa
 	}
 	
 	//查询实体 
-	$scope.findOne=function(id){				
+	$scope.findOne=function(id){
 		goodsService.findOne(id).success(
 			function(response){
 				$scope.entity= response;					
@@ -132,6 +132,19 @@ app.controller('goodsController' ,function($scope,$controller,goodsService,uploa
             }
         );
     });
+
+    //三级分类选择后  读取模板ID
+    $scope.$watch('entity.goods.category3Id', function(newValue, oldValue) {
+        if(newValue == undefined){
+            newValue = 1;
+        }
+        itemCatService.findOne(newValue).success(
+            function(response){
+                $scope.entity.goods.typeTemplateId=response.typeId; //更新模板ID
+            }
+        );
+    });
+
 
 
 
