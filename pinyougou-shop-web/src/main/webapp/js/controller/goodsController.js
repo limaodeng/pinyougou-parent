@@ -157,21 +157,8 @@ app.controller('goodsController' ,function($scope,$controller,goodsService,
                 $scope.typeTemplate=response;//获取类型模板
 				if($scope.typeTemplate.brandIds != undefined){
                     $scope.typeTemplate.brandIds= JSON.parse( $scope.typeTemplate.brandIds);//品牌列表
+                    $scope.entity.goodsDesc.customAttributeItems=JSON.parse( $scope.typeTemplate.customAttributeItems);//扩展属性
                 }
-            }
-        );
-    });
-
-    //模板ID选择后  更新模板对象
-    $scope.$watch('entity.goods.typeTemplateId', function(newValue, oldValue) {
-        if(newValue == undefined){
-            newValue = 35;
-        }
-        typeTemplateService.findOne(newValue).success(
-            function(response){
-                $scope.typeTemplate=response;//获取类型模板
-                $scope.typeTemplate.brandIds= JSON.parse( $scope.typeTemplate.brandIds);//品牌列表
-                $scope.entity.goodsDesc.customAttributeItems=JSON.parse( $scope.typeTemplate.customAttributeItems);//扩展属性
             }
         );
     });
