@@ -135,6 +135,8 @@ app.controller('goodsController' ,function($scope,$controller,goodsService,
         );
     });
 
+    $scope.entity.goods.typeTemplateId = 35;
+
     //三级分类选择后  读取模板ID
     $scope.$watch('entity.goods.category3Id', function(newValue, oldValue) {
         if(newValue == undefined){
@@ -142,7 +144,9 @@ app.controller('goodsController' ,function($scope,$controller,goodsService,
         }
         itemCatService.findOne(newValue).success(
             function(response){
-                $scope.entity.goods.typeTemplateId=response.typeId; //更新模板ID
+                if(response.typeId != undefined){
+                    $scope.entity.goods.typeTemplateId=response.typeId; //更新模板ID
+                }
             }
         );
     });
@@ -166,6 +170,27 @@ app.controller('goodsController' ,function($scope,$controller,goodsService,
             }
         );
     });
+
+    $scope.entity={ goodsDesc:{itemImages:[],specificationItems:[]},goods:{typeTemplateId:35}  };
+
+    $scope.updateSpecAttribute=function($event,name,value){
+        var object= $scope.searchObjectByKey(
+            $scope.entity.goodsDesc.specificationItems ,'attributeName', name);
+        if(object!=null){
+            if($event.target.checked ){
+                object.attributeValue.push(value);
+            }else{//取消勾选				object.attributeValue.splice( object.attributeValue.indexOf(value ) ,1);//移除选项
+                //如果选项都取消了，将此条记录移除
+                if(object.attributeValue.length==0){
+                    $scope.entity.goodsDesc.specificationItems.splice(
+                        $scope.entity.goodsDesc.specificationItems.indexOf(object),1);
+                }
+            }
+        }else{
+            $scope.entity.goodsDesc.specificationItems.push(
+                {"attributeName":name,"attributeValue":[value]});
+        }
+    }
 
 
 
