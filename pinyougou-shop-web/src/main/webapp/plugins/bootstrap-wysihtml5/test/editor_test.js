@@ -51,7 +51,6 @@ if (wysihtml5.browser.supported()) {
     //var editor = new wysihtml5.Editor(this.textareaElement);
     $(this.textareaElement).wysihtml5();
     var editor = $(this.textareaElement).data('wysihtml5').editor;
-    // debugger;
     editor.observe("load", function() {
       var iframeElement   = that.getIframeElement(),
           composerElement = that.getComposerElement(),

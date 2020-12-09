@@ -293,5 +293,13 @@ public class GoodsServiceImpl implements GoodsService {
 			item.setImage ( (String)imageList.get(0).get("url"));
 		}
 	}
-	
+
+	public void updateStatus(Long[] ids, String status) {
+		for(Long id:ids){
+			TbGoods goods = goodsMapper.selectByPrimaryKey(id);
+			goods.setAuditStatus(status);
+			goodsMapper.updateByPrimaryKey(goods);
+		}
+	}
+
 }

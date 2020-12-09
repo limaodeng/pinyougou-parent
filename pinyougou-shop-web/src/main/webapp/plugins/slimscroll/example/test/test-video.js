@@ -1149,7 +1149,6 @@ var linotype = function(config_options){
 	 */
 	var MouseWheelHandler = function (e){
 		/* jshint debug:true */
-		// debugger;
 		if(options.autoScrolling){
 			// cross-browser wheel delta
 			e = window.event || e;
