@@ -119,7 +119,9 @@ public class TypeTemplateServiceImpl implements TypeTemplateService {
 	public List<Map> findSpecList(Long id) {
 		//查询模板
 		TbTypeTemplate typeTemplate = typeTemplateMapper.selectByPrimaryKey(id);
-
+		if(typeTemplate == null){
+			return null;
+		}
 		List<Map> list = JSON.parseArray(typeTemplate.getSpecIds(), Map.class)  ;
 		for(Map map:list){
 			//查询规格选项列表

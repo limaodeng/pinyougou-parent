@@ -1,6 +1,7 @@
 package com.pinyougou.shop.controller;
 import java.util.List;
 
+import com.pinyougou.pojogroup.Goods;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -64,7 +65,15 @@ public class GoodsController {
 	 * @return
 	 */
 	@RequestMapping("/update")
-	public Result update(@RequestBody TbGoods goods){
+	public Result update(@RequestBody Goods goods){
+		//校验是否是当前商家的id
+		Goods goods2 = goodsService.findOne(goods.getGoods().getId());
+		//获取当前登录的商家ID
+		String sellerId = SecurityContextHolder.getContext().getAuthentication().getName();
+		//如果传递过来的商家ID并不是当前登录的用户的ID,则属于非法操作
+		if(!goods2.getGoods().getSellerId().equals(sellerId) ||  !goods.getGoods().getSellerId().equals(sellerId) ){
+			return new Result(false, "操作非法");
+		}
 		try {
 			goodsService.update(goods);
 			return new Result(true, "修改成功");
@@ -72,16 +81,16 @@ public class GoodsController {
 			e.printStackTrace();
 			return new Result(false, "修改失败");
 		}
-	}	
-	
+	}
+
 	/**
 	 * 获取实体
 	 * @param id
 	 * @return
 	 */
 	@RequestMapping("/findOne")
-	public TbGoods findOne(Long id){
-		return goodsService.findOne(id);		
+	public Goods findOne(Long id){
+		return goodsService.findOne(id);
 	}
 	
 	/**
