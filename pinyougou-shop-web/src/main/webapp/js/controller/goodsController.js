@@ -207,7 +207,6 @@ app.controller('goodsController' ,function($scope,$controller ,$location  ,goods
 
 
     $scope.updateSpecAttribute=function($event,name,value){
-        debugger;
         var object= $scope.searchObjectByKey($scope.entity.goodsDesc.specificationItems ,'attributeName', name);
 
         if(object!=null){
@@ -223,6 +222,9 @@ app.controller('goodsController' ,function($scope,$controller ,$location  ,goods
 
             }
         }else{
+            if($scope.entity.goodsDesc.specificationItems == null){
+                $scope.entity.goodsDesc.specificationItems = [];
+            }
             $scope.entity.goodsDesc.specificationItems.push({"attributeName":name,"attributeValue":[value]});
         }
 
@@ -272,7 +274,6 @@ app.controller('goodsController' ,function($scope,$controller ,$location  ,goods
 
     //判断规格与规格选项是否应该被勾选
     $scope.checkAttributeValue=function(specName,optionName){
-        debugger;
         var items= $scope.entity.goodsDesc.specificationItems;
         var object =$scope.searchObjectByKey( items,'attributeName', specName);
 
